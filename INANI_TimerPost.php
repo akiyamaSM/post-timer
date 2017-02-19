@@ -24,7 +24,7 @@ class Inani_TimerPost extends WP_Widget
     public function widget($args, $instance)
     {
 
-        if(is_single())
+        if(is_single() && $this->timerWidgetAllowed(get_the_ID()))
         {
             extract($args);
             extract($instance);
@@ -73,6 +73,17 @@ class Inani_TimerPost extends WP_Widget
         $words  = $words + str_word_count(strip_tags($title));
         $min = ceil($words / 200);
         return $min . ' min read';
+    }
+
+    /**
+     * check if its allowed to display the widget
+     *
+     * @param $post_id
+     * @return bool
+     */
+    private function timerWidgetAllowed($post_id)
+    {
+        return (int)get_post_meta($post_id, 'inani_show_timer', true) == 1;
     }
 }
 
