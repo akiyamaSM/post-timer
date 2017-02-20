@@ -2,6 +2,9 @@
 
 class Inani_TimerPost extends WP_Widget
 {
+    protected $min = 150;
+    protected $max = 400;
+    protected $title = "Timer";
 
     /**
      * Sets up the widgets name etc
@@ -32,7 +35,7 @@ class Inani_TimerPost extends WP_Widget
                 echo $before_title;
                     echo $title;
                 echo $after_title;
-                echo $this->read_time(get_the_title(), get_the_content());
+                echo $this->read_time(get_the_title(), get_the_content(), $count_words);
             echo $after_widget;
         }
     }
@@ -45,6 +48,7 @@ class Inani_TimerPost extends WP_Widget
      */
     public function form($instance)
     {
+        $instance = $this->update($instance, []);
         extract($instance);
         ?>
         <p>
@@ -57,6 +61,18 @@ class Inani_TimerPost extends WP_Widget
                 value="<?php echo !isset($title)?"": esc_attr($title); ?>"
             />
         </p>
+        <p>
+            <label for="<?php echo ($countWordsID =$this->get_field_id('count_words')); ?>">How many words per minute: </label>
+            <input
+                type="number"
+                min="<?php echo $this->min; ?>"
+                max="<?php echo $this->max; ?>"
+                step="1"
+                id="<?php echo $countWordsID; ?>"
+                name="<?php echo $this->get_field_name('count_words'); ?>"
+                value="<?php echo !isset($count_words)? 200 : esc_attr($count_words); ?>"
+            />
+        </p>
         <?php
     }
 
@@ -65,14 +81,23 @@ class Inani_TimerPost extends WP_Widget
      *
      * @param $title
      * @param $content
+     * @param $count_words
      * @return string
-     * @internal param $text
      */
-    private function read_time($title, $content){
+    private function read_time($title, $content, $count_words){
         $words = str_word_count(strip_tags($content));
         $words  = $words + str_word_count(strip_tags($title));
-        $min = ceil($words / 200);
+        $min = ceil($words / $count_words);
         return $min . ' min read';
+    }
+
+
+    public function update($new_instance, $old_instance)
+    {
+        $new_instance['count_words'] = $new_instance['count_words'] > $this->max? $this->max : $new_instance['count_words'];
+        $new_instance['count_words'] = $new_instance['count_words'] < $this->min? $this->min : $new_instance['count_words'];
+        $new_instance['title'] = empty($new_instance['title'])? $this->title : $new_instance['title'];
+        return $new_instance;
     }
 
     /**
