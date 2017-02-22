@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Post Timer
+ * Plugin Name: Post Reading Time
  * Plugin URI: https://github.com/akiyamaSM/post-timer
  * Description: A widget to print the estimated time to read the post
  * Version: 1.0.0

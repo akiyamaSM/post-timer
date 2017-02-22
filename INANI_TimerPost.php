@@ -113,9 +113,9 @@ class Inani_TimerPost extends WP_Widget
 }
 
 // register TimerPost widget
-function register_timer_post()
+function post_timer_estimator_register_timer_post_inani()
 {
     register_widget('Inani_TimerPost');
 }
 
-add_action('widgets_init', 'register_timer_post');
+add_action('widgets_init', 'post_timer_estimator_register_timer_post_inani');
