@@ -48,6 +48,12 @@ class INANI_ButtonCreator
      */
     public function save_post_timer_option($post_id)
     {
+        $post_type = get_post_type($post_id);
+
+        // Exclude not allowed Post types
+        if($post_type != 'revision' && $post_type != 'post')
+            return ;
+
         if(! $this->user_can_save($post_id)){
             return ;
         }

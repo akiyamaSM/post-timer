@@ -92,6 +92,13 @@ class Inani_TimerPost extends WP_Widget
     }
 
 
+    /**
+     * Update the form fields
+     *
+     * @param array $new_instance
+     * @param array $old_instance
+     * @return array
+     */
     public function update($new_instance, $old_instance)
     {
         $new_instance['count_words'] = $new_instance['count_words'] > $this->max? $this->max : $new_instance['count_words'];
@@ -101,7 +108,7 @@ class Inani_TimerPost extends WP_Widget
     }
 
     /**
-     * check if its allowed to display the widget
+     * Check if its allowed to display the widget
      *
      * @param $post_id
      * @return bool
@@ -112,7 +119,7 @@ class Inani_TimerPost extends WP_Widget
     }
 }
 
-// register TimerPost widget
+// Register TimerPost widget
 function post_timer_estimator_register_timer_post_inani()
 {
     register_widget('Inani_TimerPost');
